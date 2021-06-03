@@ -1,46 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Castle.DynamicProxy;
-namespace Business.DependencyResolvers.Autofac
+﻿using Castle.DynamicProxy;
+using System;
+
+namespace Core.Utilities.Interceptors
 {
-    using Castle.DynamicProxy;
-    using global::Core.Utilities.Interceptors;
-    using System;
-
-    namespace Core.Utilities.Interceptors
+    public abstract class MethodInterception : MethodInterceptionBaseAttribute
     {
-        public abstract class MethodInterception : MethodInterceptionBaseAttribute
+        //invocation :  business method
+        protected virtual void OnBefore(IInvocation invocation) { }
+        protected virtual void OnAfter(IInvocation invocation) { }
+        protected virtual void OnException(IInvocation invocation, System.Exception e) { }
+        protected virtual void OnSuccess(IInvocation invocation) { }
+        public override void Intercept(IInvocation invocation)
         {
-            //invocation :  business method
-            protected virtual void OnBefore(IInvocation invocation) { }
-            protected virtual void OnAfter(IInvocation invocation) { }
-            protected virtual void OnException(IInvocation invocation, System.Exception e) { }
-            protected virtual void OnSuccess(IInvocation invocation) { }
-            public override void Intercept(IInvocation invocation)
+            var isSuccess = true;
+            OnBefore(invocation);
+            try
             {
-                var isSuccess = true;
-                OnBefore(invocation);
-                try
-                {
-                    invocation.Proceed();
-                }
-                catch (Exception e)
-                {
-                    isSuccess = false;
-                    OnException(invocation, e);
-                    throw;
-                }
-                finally
-                {
-                    if (isSuccess)
-                    {
-                        OnSuccess(invocation);
-                    }
-                }
-                OnAfter(invocation);
+                invocation.Proceed();
             }
+            catch (Exception e)
+            {
+                isSuccess = false;
+                OnException(invocation, e);
+                throw;
+            }
+            finally
+            {
+                if (isSuccess)
+                {
+                    OnSuccess(invocation);
+                }
+            }
+            OnAfter(invocation);
         }
-
     }
+
 }

@@ -15,22 +15,22 @@ namespace ConsoleUI
 
         private static void CategoryTest()
         {
-            CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
-            var category = categoryManager.CategoryGetById(3);
-            Console.Write(category.CategoryName);
+            //CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
+            //var category = categoryManager.CategoryGetById(3);
+            //Console.Write(category.CategoryName);
         }
 
         private static void ProductTest()
         {
-            ProductManager productManager = new ProductManager(new EfProductDal());
-            var result = productManager.GetProductDetails();
-            if (result.Success == true)
-            {
-                foreach (var product in result.Data )
-                {
-                    Console.WriteLine(product.ProductName + " - " + product.CategoryName);
-                }
-            }
+            //ProductManager productManager = new ProductManager(new EfProductDal());
+            //var result = productManager.GetProductDetails();
+            //if (result.Success == true)
+            //{
+            //    foreach (var product in result.Data )
+            //    {
+            //        Console.WriteLine(product.ProductName + " - " + product.CategoryName);
+            //    }
+            //}
            
         }
     }
